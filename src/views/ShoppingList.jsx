@@ -1,23 +1,45 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
+
+const initialNotes = [{ id: 0, text: 'Get cold brew please!', done: false }];
+
+// an array of info
+const noteReducer = (state, action) => {};
+// function that updates our state {newNote}
 
 export default function ShoppingList() {
-  const [note, setNote] = useState('');
+  const [notes, dispatch] = useReducer(noteReducer, initialNotes);
 
-  function handleSubmit(e) {
+  const [newNote, setNewNote] = useState('');
+  //   const [notes, setNotes] = useState('');
+  //   //   useEffect(() => {
+  //   //    const data = await getNotes();
+
+  //   //     }
+  //   //   );
+
+  const handleAddNote = (e) => {
     e.preventDefault();
-  }
+  };
   return (
     <div>
-      <h2>Add to your shopping list below</h2>
-      <form className="new-todo" onSubmit={handleSubmit}>
+      <h2>Shopping List</h2>
+      <form className="new-todo" onSubmit={handleAddNote}>
         <input
           type="text"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
+          name="newNote"
+          value={newNote}
+          onChange={(e) => setNewNote(e.target.value)}
         />
         <button className="save-button">add</button>
       </form>
+      <ul>
+        {notes.map((note) => {
+          <li key={note.id}>{note.text}</li>;
+        })}
+      </ul>
     </div>
   );
 }
-//created a to do form
+// //created a to do form
+
+// mapping through the list of todos and getting one out by its id

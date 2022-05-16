@@ -1,7 +1,7 @@
-// import { createContext } from 'react';
+import { createContext } from 'react';
 
-// const NotesContext = createContext();
+const NotesContext = createContext();
 
-// export const NoteProvider = ({ children }) => {
-//   const [notes, dispatch] = useReducer(noteRe);
-// };
+export const NoteProvider = ({ children }) => {
+  const [notes, dispatch] = useReducer(noteRe);
+};

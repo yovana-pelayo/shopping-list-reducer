@@ -1,3 +1,3 @@
 export default function Header() {
-  return <div>Header Area Dog </div>;
+  return <div>Number of items </div>;
 }

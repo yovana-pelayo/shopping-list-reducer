@@ -1,31 +1,61 @@
 import { useState } from 'react';
-import { useEffect } from 'react';
-import { getNotes } from '../services/notes';
 
-export default function Notes() {
-  const [note, setNote] = useState('');
-  const [loading, setLoading] = useState(true);
+export default function Notes({ note, onUpdate, onDelete }) {
+  const [isEdit, setIsEdit] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getNotes();
-      setNote(data);
-      console.log(data);
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
-  if (loading) return <div>loading...</div>;
-  return (
-    <>
-      <form>
+  let content;
+
+  // content is what is being rendered
+  if (isEdit) {
+    content = (
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setIsEdit(false);
+        }}
+      >
         <input
-          type="text"
-          value={note}
-          onchange={(e) => setNote(e.target.value)}
+          value={note.text}
+          aria-label="edit"
+          onChange={(e) => {
+            onUpdate({ ...note, text: e.target.value });
+          }}
         />
-        <button aria-label="save">save</button>
+        <button type="submit" aria-label="save changes">
+          save
+        </button>
       </form>
-    </>
+    );
+    // onchange is calling the form and editing
+  } else {
+    content = (
+      <>
+        <p style={{ textDecoration: note.done ? 'line-through' : null }}>
+          {note.text}
+        </p>
+        <button
+          type="button"
+          onClick={() => setIsEdit(true)}
+          aria-label={`Edit ${note.text}`}
+        >
+          edit
+        </button>
+      </>
+    );
+  }
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      <input
+        type="checkbox"
+        checked={note.done}
+        onchange={(e) => {
+          onUpdate({ ...note, done: e.target.checked });
+        }}
+      />
+      {content}
+      <button type="button" onClick={() => onDelete(note.text)}>
+        delete
+      </button>
+    </div>
   );
 }

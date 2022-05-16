@@ -1,3 +1,6 @@
+import { useNotes } from '../context/NotesProvider';
+
 export default function Header() {
-  return <div>Number of items </div>;
+  const { notes } = useNotes();
+  return <div>Number of items{notes.length} </div>;
 }

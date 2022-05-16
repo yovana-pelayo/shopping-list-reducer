@@ -53,7 +53,11 @@ export default function Notes({ note, onUpdate, onDelete }) {
         }}
       />
       {content}
-      <button type="button" onClick={() => onDelete(note.text)}>
+      <button
+        type="button"
+        onClick={() => onDelete(note.id)}
+        aria-label={`Delete ${note.text}`}
+      >
         delete
       </button>
     </div>
